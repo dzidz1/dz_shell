@@ -1,9 +1,10 @@
 TARGET = dz_shell
-OBJ = main.c parser.c
+OBJ = main.c parser.c my_helpers.c
+CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 all:
-	$(CC) -o $(TARGET) $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
 clean:
 	rm -f *-o 
 fclean: clean

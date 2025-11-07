@@ -14,10 +14,18 @@ char** parse_input(char* input)
     size_t position = 0;
     
     for(size_t i = 0; input[i]; i++) {
+
+        // skip leading whitespace characters
+        while(input[i] == ' ' || input[i] == '\n' || input[i] == '\t' || input[i] == '\r' || input[i] == '\a') {
+            i++;
+        }
+
+        if(input[i] == '\0') break;
+
         token = &input[i];
 
         // calculating token length
-        while(input[i] && input[i] != ' ') {
+        while(input[i] != '\0' && input[i] != ' ' && input[i] != '\n' && input[i] != '\t' && input[i] != '\r' && input[i] != '\a') {
             token_length++;
             i++;
         }
