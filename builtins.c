@@ -46,12 +46,10 @@ int command_echo(char** args, char** env)
 
         for(; args[i] != NULL; i++) {
             if(args[i][0] == '$') {
-                char* variable_value = getenv(args[i] + 1);
+                char* variable_value = my_getenv(&args[i][1], env);
                 if(variable_value) {
                     printf("%s", variable_value);
-                } else {
-                    //printf("");
-                }
+                } 
             } else {
                 printf("%s", args[i]);
             }

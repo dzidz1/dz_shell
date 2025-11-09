@@ -3,7 +3,6 @@
 #include <unistd.h>
 
 #define MAX_INPUT 1024
-#define MAX_PATH 256
 
 char** parse_input(char* input);
 void free_tokens(char** tokens);
@@ -22,3 +21,7 @@ char** command_unsetenv(char** args, char** env);
 
 //my_helpers
 int my_strcmp(const char* str1, const char* str2);
+int my_strlen(const char* str);
+int my_strncmp(const char* str1, const char* str2, size_t n);
+
+char* my_getenv(char* variable_name, char** env);

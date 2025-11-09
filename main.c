@@ -10,8 +10,7 @@
 
 int shell_builts(char** args, char** env, char* initial_directory)
 {
-    // dont need env and initial_directory yet
-    (void) env;
+    // dont need initial_directory yet
     (void) initial_directory;
     if(my_strcmp(args[0], "cd") == 0) {
         return command_cd(args, initial_directory);
