@@ -29,7 +29,47 @@ int command_pwd()
     
     return 0;
 }
-int command_echo(char** args, char** env);
+
+// echo hello, echo $PATH, echo -n hello
+int command_echo(char** args, char** env)
+{
+    (void) env;
+    if(args[1] == NULL) {
+        printf("\n");
+    } else {
+        char no_newline = 0;
+        size_t i = 1;
+        if(my_strcmp(args[1], "-n") == 0) {
+            no_newline = 1;
+            i = 2;
+        }
+
+        for(; args[i] != NULL; i++) {
+            if(args[i][0] == '$') {
+                char* variable_value = getenv(args[i] + 1);
+                if(variable_value) {
+                    printf("%s", variable_value);
+                } else {
+                    //printf("");
+                }
+            } else {
+                printf("%s", args[i]);
+            }
+            
+            if(args[i + 1] != NULL) {
+                printf(" ");
+            }
+        }
+
+        if(no_newline == 0) {
+            printf("\n");
+        }
+    }
+
+    return 0;
+}
+
+
 int command_env(char** env);
 int command_which(char** args, char** env);
 
