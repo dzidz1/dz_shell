@@ -8,75 +8,67 @@
 // manage path
 // error handling
 
-int shell_builts(char** args, char** env, char* initial_directory)
-{
-    // dont need initial_directory yet
-    (void) initial_directory;
-    if(my_strcmp(args[0], "cd") == 0) {
-        return command_cd(args, initial_directory);
-    } else if(my_strcmp(args[0], "pwd") == 0) {
-        return command_pwd();
-    } else if(my_strcmp(args[0], "echo") == 0) {
-        return command_echo(args, env);
-    } else if(my_strcmp( args[0], "env") == 0) {
-        return command_env(env);
-    } else if(my_strcmp(args[0], "which") == 0) {
-        return command_which(args, env);
-    } else if(my_strcmp(args[0], "exit") == 0) {
-        exit(EXIT_SUCCESS);
-    } else {
-        // command doesnt exist
-    }
+int shell_builts(char **args, char **env, char *initial_directory) {
+  // dont need initial_directory yet
+  (void)initial_directory;
+  if (my_strcmp(args[0], "cd") == 0) {
+    return command_cd(args, initial_directory);
+  } else if (my_strcmp(args[0], "pwd") == 0) {
+    return command_pwd();
+  } else if (my_strcmp(args[0], "echo") == 0) {
+    return command_echo(args, env);
+  } else if (my_strcmp(args[0], "env") == 0) {
+    return command_env(env);
+  } else if (my_strcmp(args[0], "which") == 0) {
+    return command_which(args, env);
+  } else if (my_strcmp(args[0], "exit") == 0) {
+    exit(EXIT_SUCCESS);
+  } else {
+    // command doesnt exist
+  }
 
-    return 0;
+  return 0;
 }
 
-void shell_loop(char** env)
-{
-    char* input = NULL;
-    size_t input_size = 0;
+void shell_loop(char **env) {
+  char *input = NULL;
+  size_t input_size = 0;
 
-    char** args; // input arguments array
+  char **args; // input arguments array
 
-    char* initial_directory = getcwd(NULL, 0); // get current working directory
+  char *initial_directory = getcwd(NULL, 0); // get current working directory
 
-    while(1) {
-        printf("<dz_shell> ");
+  while (1) {
+    printf("<dz_shell> ");
 
-        if(getline(&input, &input_size, stdin) == -1) {
-            perror("getline");
-            break; // EOF
-        }
-
-        // printf("Input: %s", input);
-
-        args = parse_input(input);
-
-        // for(size_t i = 0; args[i] != NULL; i++) {
-        //     printf("Args: %s", args[i]);
-        //     printf("\n");
-        // }
-
-        if(args[0] != NULL) {
-            shell_builts(args, env, initial_directory);
-        }
-        
+    if (getline(&input, &input_size, stdin) == -1) {
+      perror("getline");
+      break; // EOF
     }
 
-    free_tokens(args);
+    // printf("Input: %s", input);
 
-    
+    args = parse_input(input);
+
+    // for(size_t i = 0; args[i] != NULL; i++) {
+    //     printf("Args: %s", args[i]);
+    //     printf("\n");
+    // }
+
+    if (args[0] != NULL) {
+      shell_builts(args, env, initial_directory);
+    }
+  }
+
+  free_tokens(args);
 }
 
+int main(int argc, char **argv, char **env) {
+  // dont need argc and argv
+  (void)argc;
+  (void)argv;
 
-int main(int argc, char** argv, char** env)
-{
-    // dont need argc and argv
-    (void)argc;
-    (void)argv;
+  shell_loop(env);
 
-    shell_loop(env);
-
-    return 0;
-
+  return 0;
 }
