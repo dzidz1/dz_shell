@@ -1,3 +1,6 @@
+#ifndef DZ_SHELL_H
+#define DZ_SHELL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,3 +32,5 @@ char *my_strdup(const char *str);
 char *my_strcpy(char *dest, const char *src);
 char *my_strchr(const char *str, char c);
 char *my_strtok(char *input, const char *delim);
+
+#endif
