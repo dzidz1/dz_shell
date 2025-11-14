@@ -311,6 +311,141 @@ int test_my_strdup() {
   return (passed == total) ? 1 : 0;
 }
 
+int test_my_strchr() {
+  int total = 0;
+  int passed = 0;
+  char str[] = "good night";
+
+  // Test 1: character exists
+  total++;
+  char *result = my_strchr(str, 'd');
+  if (result != NULL && *result == 'd' && result == &str[3]) {
+    printf("Test 1 passed: character exists\n");
+    passed++;
+  } else {
+    printf("Test 1 FAILED: character exists, expected 'd' at position 3\n");
+  }
+
+  // Test 2: character not found
+  total++;
+  result = my_strchr(str, 'k');
+  if (result == NULL) {
+    printf("Test 2 passed: character not found\n");
+    passed++;
+  } else {
+    printf("Test 2 FAILED: character not found, expected NULL\n");
+  }
+
+  // Test 3: NULL string input
+  total++;
+  result = my_strchr(NULL, 'a');
+  if (result == NULL) {
+    printf("Test 3 passed: NULL string input\n");
+    passed++;
+  } else {
+    printf("Test 5 FAILED: NULL string input, expected NULL\n");
+  }
+
+  // Test 4: empty string
+  total++;
+  char empty[] = "";
+  result = my_strchr(empty, 'x');
+  if (result == NULL) {
+    printf("Test 4 passed: empty string\n");
+    passed++;
+  } else {
+    printf("Test 4 FAILED: empty string, expected NULL\n");
+  }
+
+  // Test 5: first occurence
+  total++;
+  result = my_strchr(str, 'o');
+  if (result != NULL && *result == 'o' && result == &str[1]) {
+    printf("Test 5 passed: first occurence found\n");
+    passed++;
+  } else {
+    printf(
+        "Test 5 FAILED: first occurence, expected first 'o' at position 1\n");
+  }
+
+  printf("\nmy_strchr: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
+int test_my_strtok() {
+  int total = 0;
+  int passed = 0;
+  char buffer[100];
+
+  // Test 1: normal tokenization with space delimiter
+  total++;
+  my_strcpy(buffer, "hello world test");
+  char *token1 = my_strtok(buffer, " ");
+  char *token2 = my_strtok(NULL, " ");
+  char *token3 = my_strtok(NULL, " ");
+  char *token4 = my_strtok(NULL, " ");
+  if (token1 != NULL && my_strcmp(token1, "hello") == 0 && token2 != NULL &&
+      my_strcmp(token2, "world") == 0 && token3 != NULL &&
+      my_strcmp(token3, "test") == 0 && token4 == NULL) {
+    printf("Test 1 passed: normal tokenization with spaces\n");
+    passed++;
+  } else {
+    printf("Test 1 FAILED: normal tokenization, expected 'hello', 'world', "
+           "'test', NULL\n");
+  }
+
+  // Test 2: multiple delimiters
+  total++;
+  my_strcpy(buffer, ";;;;,,hello,,world;test,,,;");
+  token1 = my_strtok(buffer, ",;");
+  token2 = my_strtok(NULL, ",;");
+  token3 = my_strtok(NULL, ",;");
+  token4 = my_strtok(NULL, ",;");
+  if (token1 != NULL && my_strcmp(token1, "hello") == 0 && token2 != NULL &&
+      my_strcmp(token2, "world") == 0 && token3 != NULL &&
+      my_strcmp(token3, "test") == 0 && token4 == NULL) {
+    printf("Test 2 passed: multiple delimiters\n");
+    passed++;
+  } else {
+    printf("Test 2 FAILED: multiple delimiters\n");
+  }
+
+  // Test 3: only delimiters
+  total++;
+  my_strcpy(buffer, ",,,");
+  token1 = my_strtok(buffer, ",");
+  if (token1 == NULL) {
+    printf("Test 6 passed: only delimiters\n");
+    passed++;
+  } else {
+    printf("Test 6 FAILED: only delimiters, expected NULL\n");
+  }
+
+  // Test 4: empty string
+  total++;
+  my_strcpy(buffer, "");
+  token1 = my_strtok(buffer, ",");
+  if (token1 == NULL) {
+    printf("Test 7 passed: empty string\n");
+    passed++;
+  } else {
+    printf("Test 7 FAILED: empty string, expected NULL\n");
+  }
+
+  // Test 5: NULL input on first call
+  total++;
+  token1 = my_strtok(NULL, ",");
+  if (token1 == NULL) {
+    printf("Test 8 passed: NULL input on first call\n");
+    passed++;
+  } else {
+    printf("Test 8 FAILED: NULL input on first call, expected NULL\n");
+  }
+
+  printf("\nmy_strtok: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
 int main() {
   int passed = 0;
   int total = 0;
@@ -339,6 +474,14 @@ int main() {
 
   total++;
   passed += test_my_strcpy();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_my_strchr();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_my_strtok();
   printf("\n=========================\n");
 
   printf("Overall: %d/%d tests functions passed\n", passed, total);
