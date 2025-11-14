@@ -171,6 +171,146 @@ int test_my_strncmp() {
   return (passed == total) ? 1 : 0;
 }
 
+int test_my_getenv() {
+  int total = 0;
+  int passed = 0;
+
+  char *env[] = {"PATH=/usr/bin:/bin", "HOME=/home/ako", "USER=ako", NULL};
+
+  // Test 1: existing variable PATH
+  total++;
+  int result = my_strcmp(my_getenv("PATH", env), "/usr/bin:/bin");
+  if (result == 0) {
+    printf("Test 1 passed: PATH\n");
+    passed++;
+  } else {
+    printf("Test 1 FAILED: PATH, expected 0, got %d\n", result);
+  }
+
+  // Test 2: existing variable HOME
+  total++;
+  result = my_strcmp(my_getenv("HOME", env), "/home/ako");
+  if (result == 0) {
+    printf("Test 2 passed: HOME\n");
+    passed++;
+  } else {
+    printf("Test 2 FAILED: HOME, expected 0, got %d\n", result);
+  }
+
+  // Test 3: non-existent variable
+  total++;
+  char *answer = my_getenv("NONEXISTENT", env);
+  if (answer == NULL) {
+    printf("Test 3 passed: NONEXISTENT\n");
+    passed++;
+  } else {
+    printf("Test 3 FAILED: NONEXISTENT, expected NULL, got %s\n", answer);
+  }
+
+  // Test 4: edge case variable is NULL
+  total++;
+  answer = my_getenv(NULL, env);
+  if (answer == NULL) {
+    printf("Test 4 passed: variable NULL\n");
+    passed++;
+  } else {
+    printf("Test 4 FAILED: variable NULL, expected NULL, got %s\n", answer);
+  }
+
+  // Test 5: edge case env is NULL
+  total++;
+  answer = my_getenv("PATH", NULL);
+  if (answer == NULL) {
+    printf("Test 5 passed: env NULL\n");
+    passed++;
+  } else {
+    printf("Test 5 FAILED: env NULL, expected NULL, got %s\n", answer);
+  }
+
+  printf("\nmy_getenv: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
+int test_my_strcpy() {
+  int total = 0;
+  int passed = 0;
+  char dest[20];
+
+  // Test 1: normal copy
+  total++;
+  char *result = my_strcpy(dest, "yo hablo espanol");
+  if (result != dest || my_strcmp(dest, "yo hablo espanol") != 0) {
+    printf("Test 1 FAILED: normal copy\n");
+  } else {
+    passed++;
+    printf("Test 1 passed: normal copy\n");
+  }
+
+  // Test 2: empty string
+  total++;
+  result = my_strcpy(dest, "");
+  if (my_strcmp(dest, "") != 0) {
+    printf("Test 2 FAILED: empty string");
+  } else {
+    passed++;
+    printf("Test 2 passed: empty copy\n");
+  }
+
+  // Test 3: NULL source
+  total++;
+  if (my_strcpy(dest, NULL) != NULL) {
+    printf("Test 3 FAILED: NULL source");
+  } else {
+    printf("Test 3 passed: NULL source");
+    passed++;
+  }
+
+  printf("\nmy_strcpy: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
+int test_my_strdup() {
+  int total = 0;
+  int passed = 0;
+
+  // Test 1: normal duplication
+  total++;
+  char *original = "Hello World";
+  char *duplicate = my_strdup(original);
+  if (duplicate != NULL && my_strcmp(original, duplicate) == 0 &&
+      duplicate != original) {
+    printf("Test 1 passed: normal duplication\n");
+    passed++;
+  } else {
+    printf("Test 1 FAILED: normal duplication\n");
+  }
+
+  // Test 2: empty string
+  total++;
+  char *empty = my_strdup("");
+  if (empty != NULL && my_strcmp(empty, "") == 0) {
+    printf("Test 2 passed: empty string\n");
+    passed++;
+  } else {
+    printf("Test 2 FAILED: empty string");
+  }
+
+  // Test 3: NULL input
+  total++;
+  if (my_strdup(NULL) == NULL) {
+    printf("Test 3 passed: NULL input\n");
+    passed++;
+  } else {
+    printf("Test 3 FAILED: NULL input");
+  }
+
+  free(duplicate);
+  free(empty);
+
+  printf("\nmy_strdup: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
 int main() {
   int passed = 0;
   int total = 0;
@@ -187,6 +327,18 @@ int main() {
 
   total++;
   passed += test_my_strncmp();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_my_getenv();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_my_strdup();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_my_strcpy();
   printf("\n=========================\n");
 
   printf("Overall: %d/%d tests functions passed\n", passed, total);
