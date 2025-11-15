@@ -1,4 +1,7 @@
-#include "dz_shell.h"
+#include "builtins.h"
+#include "common.h"
+#include "my_helpers.h"
+#include "parser.h"
 
 // shell loop
 // input parsing

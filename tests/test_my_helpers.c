@@ -1,4 +1,5 @@
-#include "dz_shell.h"
+#include "common.h"
+#include "my_helpers.h"
 
 int test_my_strlen() {
   int passed = 0;

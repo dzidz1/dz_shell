@@ -1,4 +1,6 @@
-#include "dz_shell.h"
+#include "builtins.h"
+#include "common.h"
+#include "my_helpers.h"
 
 // cd, cd [path], cd - (prev dir), cd ~, cd .., handling non existing dirs and
 // permission issues
@@ -125,7 +127,7 @@ int command_which(char **args, char **env) {
                             "unsetenv", "which", "exit", NULL};
   for (size_t i = 0; builtins[i] != NULL; i++) {
     if (my_strcmp(args[1], builtins[i]) == 0) {
-      printf("%s is a shell builtin command\n", args[i]);
+      printf("%s is a shell builtin command\n", builtins[i]);
       return 0;
     }
   }
