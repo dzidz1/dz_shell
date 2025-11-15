@@ -12,12 +12,14 @@ char **parse_input(char *input) {
   char *token = NULL;
   size_t token_length = 0;
   size_t position = 0;
+  size_t i = 0;
 
-  for (size_t i = 0; input[i]; i++) {
+  while (input[i] != '\0') {
 
     // skip leading whitespace characters
-    while (input[i] == ' ' || input[i] == '\n' || input[i] == '\t' ||
-           input[i] == '\r' || input[i] == '\a') {
+    while (input[i] != '\0' &&
+           (input[i] == ' ' || input[i] == '\n' || input[i] == '\t' ||
+            input[i] == '\r' || input[i] == '\a')) {
       i++;
     }
 
@@ -47,6 +49,11 @@ char **parse_input(char *input) {
 
     position++;
     token_length = 0;
+  }
+
+  if (position == 0) {
+    free(tokens);
+    return NULL;
   }
 
   tokens[position] = NULL; // terminating array with null
