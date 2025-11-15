@@ -1,3 +1,4 @@
 /dz_shell
 /test_helpers
+/test_parser
 *.o
