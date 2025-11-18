@@ -58,7 +58,13 @@ void shell_loop(char **env) {
     //     printf("\n");
     // }
 
-    if (args[0] != NULL) {
+    if (args[0] == NULL) {
+      return;
+    } else if (my_strcmp(args[0], "setenv") == 0) {
+      env = command_setenv(args, env);
+    } else if (my_strcmp(args[0], "unsetenv") == 0) {
+      env = command_unsetenv(args, env);
+    } else {
       shell_builts(args, env, initial_directory);
     }
   }
