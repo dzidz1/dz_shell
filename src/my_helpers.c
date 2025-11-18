@@ -67,7 +67,7 @@ char *my_getenv(char *variable_name, char **env) {
 }
 
 char *my_strcpy(char *dest, const char *src) {
-  if (!src)
+  if (!src || !dest)
     return NULL;
   char *return_pointer = dest;
   while (*src) {
@@ -76,6 +76,27 @@ char *my_strcpy(char *dest, const char *src) {
     src++;
   }
   *dest = '\0';
+  return return_pointer;
+}
+
+char *my_strncpy(char *dest, const char *src, size_t n) {
+  if (!src || !dest)
+    return NULL;
+  char *return_pointer = dest;
+  while (n > 0 && *src) {
+    *dest = *src;
+    dest++;
+    src++;
+    n--;
+  }
+
+  // padding with spaces
+  while (n > 0) {
+    *dest = '\0';
+    dest++;
+    n--;
+  }
+
   return return_pointer;
 }
 
