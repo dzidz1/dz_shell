@@ -49,14 +49,7 @@ void shell_loop(char **env) {
       break; // EOF
     }
 
-    // printf("Input: %s", input);
-
     args = parse_input(input);
-
-    // for(size_t i = 0; args[i] != NULL; i++) {
-    //     printf("Args: %s", args[i]);
-    //     printf("\n");
-    // }
 
     if (args[0] == NULL) {
       return;
