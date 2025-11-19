@@ -170,6 +170,10 @@ char **command_setenv(char **args, char **env) {
   char var_name[256];
   my_strncpy(var_name, args[1], equal_sign - args[1]);
   var_name[equal_sign - args[1]] = '\0';
+  if (var_name[0] == '\0') {
+    printf("Error: variale name can't be empty\n");
+    return env;
+  }
 
   int env_count = count_env_vars(env);
   char **new_env = malloc((env_count + 2) * sizeof(char *));
