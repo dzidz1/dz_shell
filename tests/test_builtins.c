@@ -307,6 +307,104 @@ int test_command_cd(void) {
   return (passed == total) ? 1 : 0;
 }
 
+int test_command_setenv() {
+  int total = 0;
+  int passed = 0;
+
+  // Test 1: args[1] == NULL
+  total++;
+  {
+    char *args[] = {"setenv", NULL, NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (res == env) {
+      printf("Test 1 passed: args[1] is NULL\n");
+      passed++;
+    } else {
+      printf(
+          "Test 1 FAILED: args[1] is NULL, res expected to be same as env\n");
+    }
+  }
+
+  // Test 2: doesnt contain '='
+  total++;
+  {
+    char *args[] = {"setenv", "VARvalue", NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (res == env) {
+      printf("Test 2 passed: args[1] doesnt contain '='\n");
+      passed++;
+    } else {
+      printf("Test 2 FAILED: args[1] doesnt contain '=', res expected to be "
+             "the same as env\n");
+    }
+  }
+
+  // Test 3: adding new var
+  total++;
+  {
+    char *args[] = {"setenv", "VAR=value", NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (my_strcmp(res[4], "VAR=value") == 0) {
+      printf("Test 3 passed: adding new var\n");
+      passed++;
+      free(res);
+    } else {
+      printf("Test 3 FAILED: adding new var, last var expected VAR=value\n");
+    }
+  }
+
+  // Test 4: reset existing var
+  total++;
+  {
+    char *args[] = {"setenv", "y=25", NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (my_strcmp(res[1], "y=25") == 0) {
+      printf("Test 4 passed: reset existing var\n");
+      passed++;
+      free(res);
+    } else {
+      printf("Test 4 FAILED: reset existing var, expected y=25, got: %s\n",
+             res[1]);
+    }
+  }
+
+  // Test 5: empty value (var=)
+  total++;
+  {
+    char *args[] = {"setenv", "var=", NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (my_strcmp(res[4], "var=") == 0) {
+      printf("Test 5 passed: empty value\n");
+      passed++;
+      free(res);
+    } else {
+      printf("Test 5 FAILED: empty value, var expected to be empty\n");
+    }
+  }
+
+  // Test 6: empty variable (=value)
+  total++;
+  {
+    char *args[] = {"setenv", "=value", NULL};
+    char *env[] = {"x=5", "y=10", "z=15", "k=20", NULL};
+    char **res = command_setenv(args, env);
+    if (res == env) {
+      printf("Test 6 passed: empty variable\n");
+      passed++;
+    } else {
+      printf("Test 6 FAILED: empty variable, res expected to be same as env\n");
+    }
+  }
+
+  printf("\ncommand_setenv: %d/%d tests passed\n", passed, total);
+  return (passed == total) ? 1 : 0;
+}
+
 int main(int argc, char **argv, char **env) {
   (void)argc;
   (void)argv;
@@ -332,6 +430,10 @@ int main(int argc, char **argv, char **env) {
 
   total++;
   passed += test_command_cd();
+  printf("\n=========================\n");
+
+  total++;
+  passed += test_command_setenv();
   printf("\n=========================\n");
 
   printf("Overall Builtins: %d/%d test functions passed\n", passed, total);
