@@ -4,15 +4,31 @@
 
 // cd, cd [path], cd - (prev dir), cd ~, cd .., handling non existing dirs and
 // permission issues
-int command_cd(char **args, char *initial_directory) {
-  (void)initial_directory; // not needed yet
-  if (args[1] == NULL) {
-    printf("cd expects path as an argument\n");
-  } else if (chdir(args[1]) == 0) {
-    // worked
+int command_cd(char **args, char *initial_directory, char **env) {
+  char *path;
+
+  // no argument or ~, goes to HOME
+  if (args[1] == NULL || my_strcmp(args[1], "~") == 0) {
+    path = my_getenv("HOME", env);
+    if (path == NULL) {
+      fprintf(stderr, "cd: HOME not set\n");
+      return 1;
+    }
+  } else if (my_strcmp(args[1], "-") == 0) {
+    path = initial_directory;
+    if (path == NULL) {
+      fprintf(stderr, "cd: initial directory not avaliable\n");
+      return 1;
+    }
   } else {
-    perror("CD failed");
+    path = args[1];
   }
+
+  if (chdir(path) != 0) {
+    perror("cd failed");
+    return 1;
+  }
+
   return 0;
 }
 
