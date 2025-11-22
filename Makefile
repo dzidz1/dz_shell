@@ -6,7 +6,7 @@ SRC_DIR = src
 INC_DIR = include
 TEST_DIR = tests
 
-OBJ = $(SRC_DIR)/main.c $(SRC_DIR)/parser.c $(SRC_DIR)/my_helpers.c $(SRC_DIR)/builtins.c
+OBJ = $(SRC_DIR)/main.c $(SRC_DIR)/parser.c $(SRC_DIR)/my_helpers.c $(SRC_DIR)/builtins.c $(SRC_DIR)/executor.c
 TEST_OBJ = $(TEST_DIR)/test_my_helpers.c $(SRC_DIR)/my_helpers.c
 TEST_PARSER_OBJ = $(TEST_DIR)/test_parser.c $(SRC_DIR)/parser.c $(SRC_DIR)/my_helpers.c
 TEST_BUILTINS_OBJ = $(TEST_DIR)/test_builtins.c $(SRC_DIR)/builtins.c $(SRC_DIR)/my_helpers.c
