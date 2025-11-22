@@ -16,7 +16,7 @@ int shell_builts(char **args, char **env, char *initial_directory) {
   // dont need initial_directory yet
   (void)initial_directory;
   if (my_strcmp(args[0], "cd") == 0) {
-    return command_cd(args, initial_directory);
+    return command_cd(args, initial_directory, env);
   } else if (my_strcmp(args[0], "pwd") == 0) {
     return command_pwd();
   } else if (my_strcmp(args[0], "echo") == 0) {
@@ -53,18 +53,23 @@ void shell_loop(char **env) {
 
     args = parse_input(input);
 
-    if (args[0] == NULL) {
-      return;
-    } else if (my_strcmp(args[0], "setenv") == 0) {
+    if (args == NULL) {
+      continue;
+    }
+
+    if (my_strcmp(args[0], "setenv") == 0) {
       env = command_setenv(args, env);
     } else if (my_strcmp(args[0], "unsetenv") == 0) {
       env = command_unsetenv(args, env);
     } else {
       shell_builts(args, env, initial_directory);
     }
+
+    free_tokens(args);
   }
 
-  free_tokens(args);
+  free(input);
+  free(initial_directory);
 }
 
 int main(int argc, char **argv, char **env) {
