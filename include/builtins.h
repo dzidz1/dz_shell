@@ -3,7 +3,7 @@
 
 int shell_builts(char **args, char **env, char *initial_directory);
 
-int command_cd(char **args, char *initial_directory);
+int command_cd(char **args, char *initial_directory, char **env);
 int command_pwd();
 int command_echo(char **args, char **env);
 int command_env(char **env);
