@@ -11,8 +11,8 @@ DZ_Shell is a functional Unix shell built from scratch, demonstrating core conce
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/dz-shell.git
-cd dz-shell
+git clone https://github.com/dzidz1/DZ_Shell.git
+cd DZ_Shell
 make
 ./dz_shell
 ```
